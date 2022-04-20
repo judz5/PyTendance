@@ -39,8 +39,8 @@ while True:
 
     if go:
 
-        facesCurFrames = face_recognition.face_locations(imgS)
-        encodesCurFrame = face_recognition.face_encodings(imgS, facesCurFrames)
+        facesCurFrames = face_recognition.face_locations(imgS) # face locations
+        encodesCurFrame = face_recognition.face_encodings(imgS, facesCurFrames) 
 
         for encodeFace, faceLoc, in zip(encodesCurFrame, facesCurFrames):
             matches = face_recognition.compare_faces(encodeListKnown, encodeFace)
@@ -53,6 +53,17 @@ while True:
                 print(name)
 
     go = not go
+
+    for(top, right, bottom, left) in face_locations:
+        top *= 4
+        right *= 4
+        bottom *= 4
+        left *= 4
+
+        cv2.rectangle(img, (left, top), (right, bottom), (0, 0, 255), 2)
+
+        cv2.rectangle(img, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
+
 
     cv2.imshow('Webcam', img)
     cv2.waitKey(1)    
