@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import face_recognition
 import os
+from datetime import datetime
 
 path = 'StudentImage'
 images = []
@@ -25,10 +26,11 @@ def findEncodings(images):
 
 encodeListKnown = findEncodings(images)
 print('done')
-
 cap = cv2.VideoCapture(0)
 
 go = True
+
+attendance = []
 
 print("entering loop")
 while True:
@@ -50,6 +52,7 @@ while True:
 
             if matches[matchIndex]:
                 name = classNames[matchIndex].upper()
+                if not name in attendance: attendance.append([name, datetime.now().strftime("%H:%M;%S")])
                 print(name)
             else:
                 name = "Unknown"
