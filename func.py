@@ -2,6 +2,7 @@ from picamera import PiCamera
 from time import sleep
 import cv2, face_recognition, os
 import numpy as np
+import pandas as pd
 
 camera = piCamera()
 
