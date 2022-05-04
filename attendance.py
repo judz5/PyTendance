@@ -1,7 +1,8 @@
 import cv2
 import numpy as np
 import face_recognition
-import os
+import os, csv, keyboard
+from datetime import datetime
 
 path = 'StudentImage'
 images = []
@@ -25,13 +26,16 @@ def findEncodings(images):
 
 encodeListKnown = findEncodings(images)
 print('done')
-
 cap = cv2.VideoCapture(0)
 
 go = True
 
+attendance = []
+
+running = True
+
 print("entering loop")
-while True:
+while running:
 
     success, img = cap.read(0)
     imgS = cv2.resize(img,(0,0),None, 0.25, 0.25)
@@ -50,6 +54,7 @@ while True:
 
             if matches[matchIndex]:
                 name = classNames[matchIndex].upper()
+                if not name in attendance: attendance.append([name, datetime.now().strftime("%H:%M;%S")])
                 print(name)
             else:
                 name = "Unknown"
@@ -69,4 +74,16 @@ while True:
         cv2.putText(img, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
 
     cv2.imshow('Webcam', img)
-    cv2.waitKey(1)    
+    cv2.waitKey(1)
+
+    try:
+        if keyboard.is_pressed('q'):
+            running = False
+    except:
+        pass
+
+
+with open('attendanceSheet.csv', 'w', encoding='UTF8', newline='') as f:
+    writer = csv.writer(f)
+
+    wrtier.writerow(attendance)    
