@@ -1,3 +1,4 @@
+from inspect import v
 from tkinter import *
 from tkinter import ttk
 from inspect import v
